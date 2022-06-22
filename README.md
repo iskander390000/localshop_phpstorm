@@ -1,2 +1,2 @@
-# localshop_phpstorm
+# localshop_php
 # online store option
