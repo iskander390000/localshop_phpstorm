@@ -196,5 +196,18 @@
 
     }
 
+    /**
+     * Получить данныезаказа текущего пользователя
+     *
+     * @return mixed  массив заказов с привязкой к продуктам
+     */
+    function getCurUserOrders()
+    {
+        $userId = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : 0;
+        $rs = getOrdersWithProductsByUser($userId);
+
+        return $rs;
+    }
+
 
 

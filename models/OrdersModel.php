@@ -4,14 +4,14 @@
          *
          */
 
-    /**
-     *  Создание заказа(без привязки товара)
-     *
-     * @param $name
-     * @param $phone
-     * @param $adress
-     * @return void ID созданного товара
-     */
+        /**
+         *  Создание заказа(без привязки товара)
+         *
+         * @param $name
+         * @param $phone
+         * @param $adress
+         * @return void ID созданного товара
+         */
         function makeNewOrder($name, $phone, $adress)
         {
             //> инициализация переменных
@@ -53,3 +53,33 @@
             }
             return false;
         }
+
+    /**
+     * Получить список заказов с привязкой для пользователя $userId
+     *
+     * @param $userId ID пользователя
+     * @return array массив заказов с привязкой к продуктам
+     */
+        function getOrdersWithProductsByUser($userId)
+        {
+            $userId = intval($userId);
+            $sql = "SELECT * FROM orders
+                     WHERE  `user_id` = '{$userId}'
+                     ORDER  BY id DESC ";
+
+            $rs = mysql_query($sql);
+
+            $smartyRS = array();
+            while ($row = mysql_fetch_assoc($rs))
+            {
+                $rsChildren = getPurchaseForOrder($row['id']);
+
+                if ($rsChildren)
+                {
+                    $row['children'] = $rsChildren;
+                    $smartyRS[] = $row;
+                }
+            }
+            return $smartyRS;
+        }
+
