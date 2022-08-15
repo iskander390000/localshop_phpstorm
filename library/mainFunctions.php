@@ -42,8 +42,19 @@
     */
     function d($value = null, $die = 1)
     {
-        echo 'Debug: <br /><pre>';
-        print_r($value);
+        function debugOut($a)
+        {
+            echo '<br /><b>'. basename( $a['file'] ). '</b>'
+                . "&nbsp;<font color='red'>({$a['line']})</font>"
+                . "&nbsp;<font color='green'>{$a['function']}()</font>"
+                . "&nbsp; -- ".dirname( $a['file'] );
+        }
+
+        echo '<pre>';
+            $trace = debug_backtrace();
+            array_walk($trace, 'debugOut');
+            echo "\n\n";
+            var_dump($value);
         echo '</pre>';
    
         if ($die) die;

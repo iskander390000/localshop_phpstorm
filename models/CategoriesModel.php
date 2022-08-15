@@ -80,6 +80,99 @@
     }
 
 
+    /**
+     * Получить все главные категории (категории которые не являются дочерними)
+     *
+     * @return array|false массив категорий
+     */
+    function getAllMainCategories()
+    {
+        $sql = "SELECT*
+                FROM categories
+                WHERE parent_id = 0";
+
+        $rs = mysql_query($sql);
+
+        return createSmartyRsArray($rs);
+    }
+
+
+    /**
+     * Добаление новой категории
+     * @param  string $catName Название категории
+     * @param integer $catParentId ID родительской категории
+     * @return integer id новой категорий
+     */
+    function insertCat($catName, $catParentId = 0)
+    {
+        // готовим запрос
+        $sql = "INSERT INTO
+                categories (`parent_id`, `name`)
+                VALUES ('{$catParentId}', '{$catName}')";
+
+        // выполняем запрос
+        mysql_query($sql);
+
+        // получем id добавленной записи
+        $id = mysql_insert_id();
+
+        return $id;
+    }
+
+    /**
+     * Получить все категории
+     *
+     * @return array|false массив категорий
+     */
+
+    function getAllCategories()
+    {
+        $sql = 'SELECT*
+                FROM categories
+                ORDER BY parent_id ASC';
+
+        $rs = mysql_query($sql);
+
+        return createSmartyRsArray($rs);
+
+    }
+
+    /**
+     *Обновление категории
+     *
+     * @param $itemId int   ID категории
+     * @param $parentId int ID главной категории
+     * @param $newName новое имя категории
+     * @return bool|resource type
+     */
+
+    function updateCategoryData($itemId, $parentId = -1, $newName ='')
+    {
+        $set =array();
+
+        if($newName)
+        {
+            $set[] = "`name` = '{$newName}'";
+        }
+
+        if($parentId > -1)
+        {
+            $set[] = "`parent_id` = '{$parentId}'";
+        }
+
+        $setStr = implode($set, ", ");
+        $sql = "UPDATE categories
+        SET {$setStr}
+        WHERE id = '{$itemId}'";
+
+        $rs = mysql_query($sql);
+
+        return $rs;
+    }
+
+    
+
+
 
 
 

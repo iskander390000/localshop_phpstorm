@@ -79,7 +79,7 @@ function conversionPrice(itemId)
 /**
  * Получение данных с формы
  *
-  */
+ */
 function getData(obj_form)
 {
     var hData = {};

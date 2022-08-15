@@ -54,18 +54,18 @@
             return false;
         }
 
-    /**
-     * Получить список заказов с привязкой для пользователя $userId
-     *
-     * @param $userId ID пользователя
-     * @return array массив заказов с привязкой к продуктам
-     */
+        /**
+         * Получить список заказов с привязкой для пользователя $userId
+         *
+         * @param $userId ID пользователя
+         * @return array массив заказов с привязкой к продуктам
+         */
         function getOrdersWithProductsByUser($userId)
         {
             $userId = intval($userId);
             $sql = "SELECT * FROM orders
-                     WHERE  `user_id` = '{$userId}'
-                     ORDER  BY id DESC ";
+                        WHERE  `user_id` = '{$userId}'
+                        ORDER  BY id DESC ";
 
             $rs = mysql_query($sql);
 
@@ -80,6 +80,96 @@
                     $smartyRS[] = $row;
                 }
             }
+
             return $smartyRS;
         }
+
+        /**
+         * Получить список заказов
+         *
+         * @return array
+         */
+         function getOrders()
+         {
+             $sql = "SELECT o.*, u.name, u.email, u.phone, u.adress
+            FROM orders AS `o`
+            LEFT JOIN users AS `u` ON o.user_id = u.id
+            ORDER BY id DESC";
+
+
+             $rs = mysql_query($sql);
+             $smartyRs = array();
+             while ($row = mysql_fetch_assoc($rs))
+             {
+                 $rsChildren = getProductsForOrder($row['id']);
+
+                 if ($rsChildren)
+                 {
+                     $row['children'] = $rsChildren;
+                     $smartyRs[] = $row;
+                 }
+             }
+
+             return $smartyRs;
+
+         }
+
+        /**
+         * Получить продукты заказа
+         *
+         * @param $orderId ID заказа
+         * @return array|false массив данных товаров
+         */
+             function getProductsForOrder($orderId)
+             {
+                 $sql = "SELECT*
+                 FROM purchase AS pe
+                 LEFT JOIN products AS ps
+                 ON pe.product_id = ps.id
+                 WHERE (`order_id` = '{$orderId}')";
+
+                 $rs = mysql_query($sql);
+                 return createSmartyRsArray($rs);
+             }
+
+
+        /**
+         * Обновить статус заказа в панели админа
+         *
+         * @param $itemId
+         * @param $status
+         * @return bool|resource
+         */
+         function updateOrderStatus($itemId, $status)
+         {
+             $status = intval($status);
+             $sql = "UPDATE orders
+                    SET `status` = '{$status}'
+                    WHERE id = '{$itemId}'";
+
+             $rs = mysql_query($sql);
+
+             return $rs;
+         }
+
+        /**
+         * Обновить дату оплату в панели админа
+         *
+         * @param $itemId
+         * @param $datePayment
+         * @return bool|resource
+         */
+         function updateOrderDatePayment($itemId, $datePayment)
+         {
+             $sql = "UPDATE orders
+             SET `date_payment` = '{$datePayment}'
+             WHERE id = '{$itemId}'";
+
+             $rs = mysql_query($sql);
+
+             return $rs;
+
+         }
+
+
 
