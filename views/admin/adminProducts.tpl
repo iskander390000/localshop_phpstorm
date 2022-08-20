@@ -1,4 +1,14 @@
 <h2>Товар</h2>
+    <input type="button" onclick="createXML();" value="Сохранить в XML">
+    <div id="xml-place"></div>
+    <hr>
+
+    Импорт
+    <form action="/admin/loadfromxml/" method="post" enctype="multipart/form-data">
+        <input type="file" name="filename"><br>
+        <input type="submit" value="Загрузить"><br>
+    </form>
+    <hr>
 
     <table border="1" cellpadding="1" cellspacing="1">
         <caption>Добавить продукт</caption>

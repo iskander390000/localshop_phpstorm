@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.7, created on 2022-07-31 23:15:35
+<?php /* Smarty version Smarty-3.1.7, created on 2022-08-15 21:17:05
          compiled from "../views/admin\adminProducts.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2293262e5920b6a4ad8-73746168%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '61841b8e82aca4be8c4677ab9d757aa621ae9f09' => 
     array (
       0 => '../views/admin\\adminProducts.tpl',
-      1 => 1659302132,
+      1 => 1660590928,
       2 => 'file',
     ),
   ),
@@ -27,6 +27,16 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_62e5920b9bcac')) {function content_62e5920b9bcac($_smarty_tpl) {?><h2>Товар</h2>
+    <input type="button" onclick="createXML();" value="Сохранить в XML">
+    <div id="xml-place"></div>
+    <hr>
+
+    Импорт
+    <form action="/admin/loadfromxml/" method="post" enctype="multipart/form-data">
+        <input type="file" name="filename"><br>
+        <input type="submit" value="Загрузить"><br>
+    </form>
+    <hr>
 
     <table border="1" cellpadding="1" cellspacing="1">
         <caption>Добавить продукт</caption>

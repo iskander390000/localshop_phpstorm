@@ -192,4 +192,20 @@ function updateDatePayment(itemId)
 
     }
 
+function createXML()
+    {
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: "/admin/createxml/",
+            dataType: 'html',
+            success: function (data) {
+                    $('#xml-place').html(data);
+                    window.open('http://www.myshop.local/xml/products.xml','_blank');
+
+            }
+        });
+
+    }
+
 
